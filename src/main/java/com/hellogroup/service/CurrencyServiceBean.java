@@ -1,5 +1,9 @@
 package com.hellogroup.service;
 
+import com.hellogroup.model.Test;
+import com.hellogroup.repository.MeetingDetailsRepository;
+import com.hellogroup.repository.ParticpantRepository;
+import com.hellogroup.repository.TestRepository;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -8,7 +12,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Service
-public class CurrencyServiceBean implements CurrencyService{
+public class CurrencyServiceBean implements CurrencyService {
+
+    // private ModelMapper modelMapper = new ModelMapper();
+    final TestRepository testRepository;
+    final ParticpantRepository particpantRepository;
+    final MeetingDetailsRepository meetingDetailsRepository;
+
+    public CurrencyServiceBean(TestRepository testRepository, ParticpantRepository particpantRepository, MeetingDetailsRepository meetingDetailsRepository) {
+        this.testRepository = testRepository;
+        this.particpantRepository = particpantRepository;
+        this.meetingDetailsRepository = meetingDetailsRepository;
+    }
 
     @Override
     public String latestRates() {
@@ -35,5 +50,11 @@ public class CurrencyServiceBean implements CurrencyService{
             ex.printStackTrace();
         }
         return latest;
+    }
+
+    @Override
+    public Test testApi2(Test test) {
+        testRepository.save(test);
+        return test;
     }
 }
